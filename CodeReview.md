@@ -1,5 +1,4 @@
-1、直接拼SQL，并且不转义变量。（*此代码不能通过CodeReview*）
-========
+## 1、直接拼SQL，并且不转义变量。（*此代码不能通过CodeReview*）
 
 ```
 class OrderController {
@@ -15,8 +14,7 @@ class OrderController {
 * 如果数据库支持多SQL，被攻击后，会导致删库删表的严重Bug。
 * 解决方案：使用Lavaral的Model生成的SQL。
 
-2、滥用Model的$appends（*此代码不能通过CodeReview*）
-========
+## 2、滥用Model的$appends（*此代码不能通过CodeReview*）
 
 ```
 class Goods extends Model
@@ -65,8 +63,8 @@ class Goods extends Model
 }
 ```
 
-3、查询没用上已有的索引（*此代码不能通过CodeReview*）
-========
+## 3、查询没用上已有的索引（*此代码不能通过CodeReview*）
+
 ```
 CREATE TABLE `store_goods` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -83,8 +81,7 @@ CREATE TABLE `store_goods` (
 * 解决方案2：再加一个索引，KEY `idx_goods_id` (`goods_id`)，注：`idx_store_id_goods_id`索引不用删。
 * 注：SELECT `id`, `store_id`, `goods_id` FROM `store_goods` WHERE `store_id` = 200，这条SQL能用上`idx_store_id_goods_id`索引。
 
-4、不必要的SQL重复执行（*此代码不能通过CodeReview*）
-========
+## 4、不必要的SQL重复执行（*此代码不能通过CodeReview*）
 
 ```
 $accept_name = $order->orderAddress()->first()['accept_name'] ?? '';
@@ -92,8 +89,8 @@ $mobile      = $order->orderAddress()->first()['mobile'] ?? '';
 ```
 * 结论：$order->orderAddress()->first()中的SQL被执行2次。
 
-5、SQL中使用Union All（*此代码不能通过CodeReview*）
-========
+## 5、SQL中使用Union All（*此代码不能通过CodeReview*）
+
 ```
 $t1 = \DB::table('table1')->select(['id','created_at'])->where('id', 1);
 $t2 = \DB::table('table2')->select(['id','created_at'])->where('id', 1)->unionAll($t1);
@@ -101,16 +98,16 @@ $sql = $t2->toSql();
 ```
 * 解决方案：用2条SQL
 
-6、SQL中出现LIKE，并且有前置%
-========
+## 6、SQL中出现LIKE，并且有前置%
+
 ```
 WHERE nickname LIKE %$nickname% OR mobile LIKE %$mobile% OR ... LIMIT ...
 ```
 * 结论：会全表遍历，效率很低
 * 解决方案：Elasticsearch + Hbase
 
-7、==和===优化
-========
+## 7、==和===优化
+
 * ==和===，当确定条件表达式两边数据类型相同时，建议使用 ===
 * 原因：
 * 1)使用==，PHP会多做一次类型转换
@@ -135,12 +132,11 @@ if (md5($_POST['pwd']) == md5('QNKCDZO')) {
 }
 ```
 
-8、''和""，当字符串中无变量时，建议''
-========
+## 8、''和""，当字符串中无变量时，建议''
 
 
-9、防御式编程
-========
+## 9、防御式编程
+
 ```
 class Foo {
     // 开发者：张三
@@ -161,6 +157,6 @@ class Bar {
 * 正确的做法是 is_array($data) && isset($data['a']) 后，才取$data['a']的值。
 * 原因：如果张三突然改了Foo::fun1()，返回值可能是null，也可能少了Key-a，他通常不会通知李四去修改Bar::fun2()的。此时Bar::fun2()就报致命错误了。
 
-10、除法运算，除数判0
-========
+## 10、除法运算，除数判0
+
 $r = $a / $b; 运算前，确保$b !== 0
