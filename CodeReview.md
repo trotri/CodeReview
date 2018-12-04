@@ -48,7 +48,7 @@ class Goods extends Model
 * 结论：查询图片的SQL（$this->imgs()->select(['url'])->get()）和查询分类的SQL（$this->goodsCategory()->get()），都被重复执行。
 * 特别是商品列表页，列表中10个商品，每个都多余执行2次SQL，SQL被多余执行了20次。
 * 解决方案：$appends中去掉多余的（如下）。
-通过$appends获取所有分类的信息（包括id和name），然后从中找出id和name。
+$appends只获取所有分类的信息（包括id和name），再从中找出id和name。
 
 ```
 class Goods extends Model
