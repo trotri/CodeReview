@@ -162,4 +162,4 @@ class Bar {
 ```
 * Bar::fun2中使用Foo::fun1的结果，但没有验证$data是否是数组，Key-a是否存在。
 * 正确的做法是 is_array($data) && isset($data['a']) 后，才取$data['a']的值。
-* 原因：如果张三突然改了Foo::fun1()，返回值可能是null，也可能去了Key-a，他通常不会通知李四去修改Bar::fun2()的。此时Bar::fun2()就报致命错误了。
+* 原因：如果张三突然改了Foo::fun1()，返回值可能是null，也可能少了Key-a，他通常不会通知李四去修改Bar::fun2()的。此时Bar::fun2()就报致命错误了。
