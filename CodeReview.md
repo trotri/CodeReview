@@ -77,7 +77,7 @@ CREATE TABLE `store_goods` (
 查询SQL：SELECT `id`, `store_id`, `goods_id` FROM `store_goods` WHERE `goods_id` = 100
 ```
 * 结论：只通过`goods_id`查询，用不到`idx_store_id_goods_id`索引。
-* 解决方案1：SQL中加上store_id，如：SELECT `id`, `store_id`, `goods_id` FROM `store_goods` WHERE `store_id` = 200 AND `goods_id` = 100。
+* 解决方案1：SQL加上`store_id`，如：SELECT `id`, `store_id`, `goods_id` FROM `store_goods` WHERE `store_id` = 200 AND `goods_id` = 100。
 * 解决方案2：再加一个索引，KEY `idx_goods_id` (`goods_id`)，注：`idx_store_id_goods_id`索引不用删。
 * 注：SELECT `id`, `store_id`, `goods_id` FROM `store_goods` WHERE `store_id` = 200，这条SQL能用上`idx_store_id_goods_id`索引。
 
