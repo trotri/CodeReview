@@ -15,7 +15,7 @@ class OrderController {
 * 如果数据库支持多SQL，被攻击后，会导致删库删表的严重Bug。
 * 解决方案：使用Lavaral的Model生成的SQL。
 
-2、滥用Model的$appends（此代码不能通过CodeReview）
+2、滥用Model的$appends（*此代码不能通过CodeReview*）
 ========
 
 ```
@@ -65,7 +65,7 @@ class Goods extends Model
 }
 ```
 
-3、查询没用上已有的索引（此代码不能通过CodeReview）
+3、查询没用上已有的索引（*此代码不能通过CodeReview*）
 ========
 ```
 CREATE TABLE `store_goods` (
@@ -83,7 +83,7 @@ CREATE TABLE `store_goods` (
 * 解决方案2：再加一个索引，KEY `idx_goods_id` (`goods_id`)，注：之前索引不用删。
 * 注：SELECT `id`, `store_id`, `goods_id` FROM `store_goods` WHERE `store_id` = 200，这条SQL能用上`idx_store_id_goods_id`索引。
 
-4、不必要的SQL重复执行（此代码不能通过CodeReview）
+4、不必要的SQL重复执行（*此代码不能通过CodeReview*）
 ========
 
 ```
@@ -92,7 +92,7 @@ $mobile      = $order->orderAddress()->first()['mobile'] ?? '';
 ```
 * 结论：$order->orderAddress()->first()中的SQL被执行2次。
 
-5、SQL中使用Union All（此代码不能通过CodeReview）
+5、SQL中使用Union All（*此代码不能通过CodeReview*）
 ========
 ```
 $t1 = \DB::table('table1')->select(['id','created_at'])->where('id', 1);
