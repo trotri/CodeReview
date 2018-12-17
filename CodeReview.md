@@ -160,3 +160,5 @@ class Bar {
 ## 10、除法运算，除数判0
 
 $r = $a / $b; 运算前，确保$b !== 0
+
+## 11、Model::first()结果判null后，再toArray()
